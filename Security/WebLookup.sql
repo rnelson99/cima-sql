@@ -1,0 +1,6 @@
+CREATE SCHEMA [WebLookup]
+    AUTHORIZATION [dbo];
+
+
+GO
+

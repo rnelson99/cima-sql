@@ -1,0 +1,133 @@
+-- exec dbo.TaskListWebApp 26
+
+CREATE PROCEDURE [dbo].[TaskListWebApp]
+	@userid int,
+	@open int = 1,
+	@waiting int = 1,
+	@private int = 1,
+	@personal int = 1,
+	@hidden int = 1,
+	@complete int = 0,
+	@delegated int = 0,
+	@organization int = 0,
+	@taskRecentlyClosed int = 0,
+	@inbox int = 0,
+	@mytasks int = 0
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	
+	IF OBJECT_ID('tempdb..#Results') IS NOT NULL DROP TABLE #Results
+	
+	select t.taskid, isnull(t.projectid,0) as projectid, p.projectnum + ' ' + p.projectname + ' (' + p.CIMA_Status + ')' as projectdescription, t.importance, t.urgency,
+		t.hiddentill, t.softdue, t.harddue, t.summary as Task,
+		case when t.softdue is null or t.softdue < getdate() then t.harddue else t.softdue end as DueDt,
+		t.visibility, DATEDIFF(DAY,getdate(),DATEADD( D,1,t.harddue))-1 as DaysTillDue, DATEDIFF(DAY,getdate(),DATEADD( D,1,t.softdue))-1 as DaysTillDueSoft,
+		t.Status, 
+			case when ztt.status = 1 then 'Waiting' else 
+			case when t.status = 1 then 'Open' else 'Complete' end end 
+			as StatusD, 
+		isnull(t.PrivateTask,0) as Private, isnull(t.PersonalTask, 0) as Personal,
+		p.projectname as Project, isnull(t.HiddenTask,0) as Hidden, case when isnull(t.PersonalTask, 0) > 0 then pp.personalproject else p.projectname end as ProjectNamePrint,
+		t.adddate, pp.PERSONALPROJECT, p.ProjectShortName,
+			(select count(*) as ct from tasks.assigned where entityid = @userid and taskid = t.taskid) as IsUsersTask,
+			(select count(*) as ct from tasks.assigned where entityid != @userid and taskid = t.taskid) as IsOtherUsers,
+			(select count(*) as ct from tasks.bugissues where AssignedTo = @userid and taskid = t.taskid and status not in (3,5,6)) as IsUsersTaskItems,
+			(select count(*) as ct from tasks.bugissues where AssignedTo = 0 and taskid = t.taskid and status not in (3,5,6) and isnull(Functionid,0) > 0 ) as IsUsersFunctionTaskItems,
+			(select count(*) as ct from tasks.bugissues where AssignedTo != @userid and taskid = t.taskid and status not in (3,5,6)) as IsOtherUsersTaskItems,
+			(select count(*) as ct from Tasks.BugIssues where status = 1 and isnull(AssignedTo,@userid) = @userid and taskid = t.taskid) as IsUsersItemInbox,
+			(select count(*) as ct from tasks.assigned where entityid = @userid and isnull(accepted,0) = 0 and taskid = t.taskid) as isUsersTaskInbox,
+			(select count(*) as ct from tasks.bugissues where AssignedTo = @userid and status = 1 and taskid = t.taskid and status not in (3,5,6)) as isUsersTaskItemInbox,
+			case when t.addid = @userid then 1 else 0 end as UserCreatedTask,
+			(select min(duedate) from tasks.bugissues where AssignedTo = @userid and status in (1,2,4) and taskid = t.taskid) as usersMinDueDate,
+		isnull((select '' + STUFF((
+					select distinct isnull(zae.firstname,'') + ' ' + left(isnull(zae.lastname,''),1) + ', '
+					from Tasks.assigned za
+					join Contacts.Entity zae on za.EntityID = zae.EntityID
+					where za.taskid = t.taskid
+					for xml path(''), type
+					).value('.', 'varchar(max)'), 1, 0, '') + ''),'') as assignedTo1,
+		isnull((select '' + STUFF((
+					select distinct isnull(zae.firstname,'') + ' ' + left(isnull(zae.lastname,''),1) + ', '
+					from Tasks.BugIssues bi
+					join Contacts.Entity zae on bi.AssignedTo = zae.EntityID
+					left join Tasks.assigned za on za.taskid = bi.taskid
+					where bi.taskid = t.taskid and za.taskid is null and bi.status in (1,4)
+					for xml path(''), type
+					).value('.', 'varchar(max)'), 1, 0, '') + ''),'') as assignedTo2,
+		isnull((select '' + STUFF((
+					select z.Issue + ', '
+					from Tasks.BugIssues z
+					where z.taskid = t.taskid
+					for xml path(''), type
+					).value('.', 'varchar(max)'), 1, 0, '') + ''),'')
+				+ ' ' + isnull(t.summary,'') + ' ' + isnull(p.projectname,'') + ' ' + isnull(p.projectnum,'')
+				as searchfield,
+		ts.snoozeTill, case when ts.snoozeTill > getdate() then 1 else 0 end as snoozed,
+		dbo.ReturnLowestDueDate(t.SoftDue, t.harddue, (select min(duedate) from tasks.bugissues where AssignedTo = @userid and status in (1,2,4) and taskid = t.taskid)) as LowestDueDate,
+		isnull(v.lastname,'') as vendorname, v.entityid as vendorid,
+		isnull(doaftertaskid,0) as DoAfterTaskID,
+		ztt.summary as doaftersummary
+	into #Results
+	from tasks.tasklist t
+	left join (select taskid, status, summary from tasks.tasklist) ztt on ztt.taskid = t.doaftertaskid
+	left join Tasks.TaskSnooze ts on ts.taskid = t.taskid and ts.entityid = @userid
+	left join tblProject p on p.projectid = t.projectid
+	left join dbo.personalprojects pp on pp.personalprojectid = t.projectid
+	left join contacts.entity v on v.entityid = t.vendorid
+	where 1=1
+	
+	/* GOing to see what status should be returned */
+	if @complete = 0 	begin		Delete from #Results where status = 0	end
+	if @open = 0 	begin		Delete from #Results where status = 1	end
+	if @private = 0 begin		Delete from #Results where isnull(Private,0) = 1	end
+	if @personal = 0 begin		Delete from #Results where isnull(Personal,0) = 1	end
+	if @hidden = 0 begin		Delete from #Results where isnull(Hidden,0) = 1	end
+
+	alter table #Results add orgDel int -- organization or delegated
+	alter table #Results add inbox int
+	alter table #Results add isUsers int 
+
+	update #Results set isUsers = 1
+	where 1=1
+	and (	isUsersTask > 0
+				or
+			IsUsersFunctionTaskItems > 0
+				or
+			isUsersTaskItems > 0
+				or
+			(UserCreatedTask > 0 and IsOtherUsers = 0 and IsOtherUsersTaskItems = 0)
+		)
+
+	update #Results set orgDel = 1 where UserCreatedTask = 1 and isUsersTaskItems = 0 and (IsOtherUsersTaskItems > 0 or IsOtherUsers > 0)
+	
+	update #Results set inbox = 1 
+	where 1=1
+	and (
+			IsUsersItemInbox > 0 or isUsersTaskInbox > 0 or isUsersTaskItemInbox > 0 or IsUsersFunctionTaskItems > 0
+		)
+	and UserCreatedTask = 0
+
+	
+
+	if @inbox = 1 begin		Delete from #Results where isnull(Inbox,0) != 1	end
+
+	if @organization = 1 or @delegated = 1
+	begin
+		Delete from #Results where orgDel != 1
+	end
+	else
+	begin
+		Delete from #Results where isUsers != 1
+	end
+
+	/*
+		This is the final output.  Need to return the results
+	*/
+	select * 
+	from #Results
+	where 1=1
+	Order by Case when LowestDueDate is null then 1 else 0 end
+    
+END
