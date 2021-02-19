@@ -645,5 +645,6 @@
     <Build Include="accounting\Tables\ApInvoices.sql"/>
     <Build Include="accounting\Tables\ApInvoiceApprovals.sql"/>
     <Build Include="dbo\StoredProcedures\TaskListWebApp.sql"/>
+    <Build Include="users\Tables\projectfavorites.sql"/>
   </ItemGroup>
 </Project>
