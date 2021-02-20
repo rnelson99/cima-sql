@@ -1,11 +1,5 @@
 
-EXEC sys.sp_dropextendedproperty @name=N'MS_DiagramPaneCount' , @level0type=N'SCHEMA',@level0name=N'Contacts', @level1type=N'VIEW',@level1name=N'Entity'
-GO
-
-EXEC sys.sp_dropextendedproperty @name=N'MS_DiagramPane1' , @level0type=N'SCHEMA',@level0name=N'Contacts', @level1type=N'VIEW',@level1name=N'Entity'
-GO
-
-create VIEW [Contacts].[Entity]
+CREATE VIEW [Contacts].[Entity]
 AS
 SELECT        EntityID, Prefix, FirstName, MiddleName, LastName, Suffix, EntityType, AddDate, AddID, ChangeDate, ChangeID, Salt, WebPwd, MobileApp, AccountExpiration, PasswordExpiration, PasswordCycle, Status, PassAttempts, 
                          LegacyID, WebLogin, LegacyTable, Heirarchy, VendorID, ClientID, VendorEntityID, ClientEntityID, UserPin, CatchAll, NickName, FullName, ShortName, PreferredName, CheckPayableTo, UserEmailRegistered, RequireDualFactor, 

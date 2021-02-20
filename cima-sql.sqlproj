@@ -148,19 +148,14 @@
     <Build Include="Tasks\Tables\reminders.sql"/>
     <Build Include="Tasks\Tables\BugIssues.sql"/>
     <Build Include="Tasks\Tables\assigned.sql"/>
-    <Build Include="Security\_unnamed__4.sql"/>
-    <Build Include="Security\_unnamed__3.sql"/>
-    <Build Include="Security\_unnamed__2.sql"/>
     <Build Include="Security\_unnamed__1.sql"/>
     <Build Include="Security\_unnamed_.sql"/>
     <Build Include="Security\WebLookup.sql"/>
     <Build Include="Security\users.sql"/>
     <Build Include="Security\TimeSheet.sql"/>
     <Build Include="Security\Tasks.sql"/>
-    <Build Include="Security\sqljobs.sql"/>
     <Build Include="Security\RequestForInfo.sql"/>
     <Build Include="Security\project.sql"/>
-    <Build Include="Security\nodeuser.sql"/>
     <Build Include="Security\NCE_nrobison.sql"/>
     <Build Include="Security\mgmtreview.sql"/>
     <Build Include="Security\Expense.sql"/>
@@ -275,23 +270,18 @@
     <Build Include="dbo\Views\view_VendorAreas.sql"/>
     <Build Include="dbo\Views\view_RetainageBalance.sql"/>
     <Build Include="dbo\Views\view_Proview_Web_Change_Order_Totals.sql"/>
-    <Build Include="dbo\Views\viewVendorPayAppCount.sql"/>
     <Build Include="dbo\Views\viewVendorListFiguresByProject.sql"/>
     <Build Include="dbo\Views\viewVendorListFigures.sql"/>
     <Build Include="dbo\Views\viewVendorContractPOC.sql"/>
     <Build Include="dbo\Views\viewVendorContacts.sql"/>
     <Build Include="dbo\Views\viewTaxingEntities.sql"/>
-    <Build Include="dbo\Views\viewSubPayPriors.sql"/>
     <Build Include="dbo\Views\viewSubPaymentApplicationHeader.sql"/>
-    <Build Include="dbo\Views\viewSubPayAppLatestPctComplete.sql"/>
-    <Build Include="dbo\Views\viewSubPayAppBilled.sql"/>
     <Build Include="dbo\Views\viewSalesTaxReport.sql"/>
     <Build Include="dbo\Views\viewPWAVendorContacts.sql"/>
     <Build Include="dbo\Views\viewPWASuperintendent.sql"/>
     <Build Include="dbo\Views\viewPWAsAtRisk.sql"/>
     <Build Include="dbo\Views\viewPWALogProjectEntity.sql"/>
     <Build Include="dbo\Views\viewPWALog.sql"/>
-    <Build Include="dbo\Views\viewPWAFunding.sql"/>
     <Build Include="dbo\Views\viewPWADetailFundingFirstConstDivCode.sql"/>
     <Build Include="dbo\Views\viewProjectsWithBudgets.sql"/>
     <Build Include="dbo\Views\viewProjectStatusReport.sql"/>
@@ -309,7 +299,6 @@
     <Build Include="dbo\Views\viewInvoiceLogReport.sql"/>
     <Build Include="dbo\Views\viewFirstSubcontractWorkItem.sql"/>
     <Build Include="dbo\Views\viewDuplicateExpenseReference.sql"/>
-    <Build Include="dbo\Views\viewCumulativeSubPayappDetail.sql"/>
     <Build Include="dbo\Views\viewConstDivCodes.sql"/>
     <Build Include="dbo\Views\viewClientContacts.sql"/>
     <Build Include="dbo\Views\viewClientContactNames.sql"/>
@@ -317,20 +306,14 @@
     <Build Include="dbo\Views\viewChangeOrder_cboVendor.sql"/>
     <Build Include="dbo\Views\viewChangeOrders.sql"/>
     <Build Include="dbo\Views\viewChangeOrderDetail.sql"/>
-    <Build Include="dbo\Views\viewBudget.sql"/>
     <Build Include="dbo\Views\viewBillableChanges.sql"/>
     <Build Include="dbo\Views\viewARReport.sql"/>
     <Build Include="dbo\Views\viewApprovedSubcontractChanges.sql"/>
     <Build Include="dbo\Views\viewApprovedChangeOrderValues.sql"/>
     <Build Include="dbo\Views\vcheckPrint.sql"/>
     <Build Include="dbo\Views\TotalRequiredFromUnapprovedPWAs.sql"/>
-    <Build Include="dbo\Views\TotalBuyouts.sql"/>
-    <Build Include="dbo\Views\TotalApprovedPWAFundingRequests.sql"/>
-    <Build Include="dbo\Views\SubcontractPayments.sql"/>
-    <Build Include="dbo\Views\SubcontractExpenses.sql"/>
     <Build Include="dbo\Views\sfrmSubcontractSubs.sql"/>
     <Build Include="dbo\Views\sfrmProjectEdit_Milestones.sql"/>
-    <Build Include="dbo\Views\sfrmProjectEdit_Budget.sql"/>
     <Build Include="dbo\Views\rptScopeAndSchedule_Vendors.sql"/>
     <Build Include="dbo\Views\rptProjectVendorList.sql"/>
     <Build Include="dbo\Views\rptCrystalSPAList.sql"/>
@@ -342,12 +325,10 @@
     <Build Include="dbo\Views\rptChangeOrder.sql"/>
     <Build Include="dbo\Views\qryScopeAndSchedule_Vendors.sql"/>
     <Build Include="dbo\Views\PWADivCode.sql"/>
-    <Build Include="dbo\Views\MostCurrentCIMAEstimate.sql"/>
     <Build Include="dbo\Views\InvoicePriors.sql"/>
     <Build Include="dbo\Views\frmProjectSelectionList.sql"/>
     <Build Include="dbo\Views\EntityUserView.sql"/>
     <Build Include="dbo\Views\CommittedPWATotal.sql"/>
-    <Build Include="dbo\Views\CODivCodes.sql"/>
     <Build Include="dbo\Views\ChangeOrderTotalCIMACost.sql"/>
     <Build Include="dbo\Tables\wifi.sql"/>
     <Build Include="dbo\Tables\VendorTasksList.sql"/>
@@ -536,7 +517,6 @@
     <Build Include="dbo\StoredProcedures\SuperNotScheduled.sql"/>
     <Build Include="dbo\StoredProcedures\SQLUpdateDatabase.sql"/>
     <Build Include="dbo\StoredProcedures\SetNext6weeks.sql"/>
-    <Build Include="dbo\StoredProcedures\SalesTaxReportReporting.sql"/>
     <Build Include="dbo\StoredProcedures\SalesTaxReport.sql"/>
     <Build Include="dbo\StoredProcedures\SalesTaxDetermination_20190401.sql"/>
     <Build Include="dbo\StoredProcedures\SalesTaxDetermination.sql"/>
@@ -646,5 +626,18 @@
     <Build Include="accounting\Tables\ApInvoiceApprovals.sql"/>
     <Build Include="dbo\StoredProcedures\TaskListWebApp.sql"/>
     <Build Include="users\Tables\projectfavorites.sql"/>
+    <Build Include="dbo\StoredProcedures\ProjectAdd.sql"/>
+  </ItemGroup>
+  <ItemGroup>
+    <SqlCmdVariable Include="WeatherDatabase">
+      <DefaultValue>WeatherDatabase</DefaultValue>
+      <Value>$(SqlCmdVar__1)</Value>
+    </SqlCmdVariable>
+  </ItemGroup>
+  <ItemGroup>
+    <ArtifactReference Include="c:\Users\mstro\Documents\cima\cima-sql\WeatherDatabase.dacpac">
+      <SuppressMissingDependenciesErrors>True</SuppressMissingDependenciesErrors>
+      <DatabaseVariableLiteralValue>WeatherDatabase</DatabaseVariableLiteralValue>
+    </ArtifactReference>
   </ItemGroup>
 </Project>

@@ -59,7 +59,7 @@ BEGIN
 		join Contacts.EntityType et on et.EntityID = pe.CompanyEntityID and et.Type in (select id from WebLookup.LookUpCodes		where lookuptype = 'entitytype'		and status = 1		and id not in (36,138,82,22,18,81,23))
 		join WebLookup.LookUpCodes l on l.ID = et.Type
 		where pe.CompanyType is null
-		order by entityid
+		order by pe.entityid
 
 
 		while exists (select top 1 entityid from #Results order by entityid )
