@@ -1,0 +1,12 @@
+c:\Users\mstro\Documents\cima\cima-sql\bin\Debug\cima-sql.dacpac
+c:\Users\mstro\Documents\cima\cima-sql\obj\Debug\cima-sql.sqlprojAssemblyReference.cache
+c:\Users\mstro\Documents\cima\cima-sql\obj\Debug\Model.xml
+c:\Users\mstro\Documents\cima\cima-sql\obj\Debug\refactor.xml
+c:\Users\mstro\Documents\cima\cima-sql\obj\Debug\postdeploy.sql
+c:\Users\mstro\Documents\cima\cima-sql\obj\Debug\predeploy.sql
+c:\Users\mstro\Documents\cima\cima-sql\obj\Debug\cima-sql.dll
+c:\Users\mstro\Documents\cima\cima-sql\obj\Debug\cima-sql.pdb
+c:\Users\mstro\Documents\cima\cima-sql\bin\Debug\cima-sql.dll
+c:\Users\mstro\Documents\cima\cima-sql\bin\Debug\cima-sql.pdb
+c:\Users\mstro\Documents\cima\cima-sql\bin\Debug\WeatherDatabase.dacpac
+c:\Users\mstro\Documents\cima\cima-sql\obj\Debug\cima-sql.sqlproj.CopyComplete

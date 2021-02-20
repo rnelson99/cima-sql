@@ -1,0 +1,50 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE dbo.CheckAddUser
+	@username varchar(100),
+	@firstname varchar(100),
+	@lastname varchar(100),
+	@cimaPwd varchar(1000)
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	if exists (Select EntityID from Contacts.entity where WebLogin = @username)
+	begin
+		Select -1 as entityid, 0 as addeduser
+	end
+	else
+	begin
+		declare @EntityID int = 0;
+
+		insert into Contacts.Entity (WebLogin, FirstName, LastName, EntityType, Salt, WebPwd, Status, PreferredName, legalFirst, cimapwd)
+		Select @username, @firstname, @lastname, 1, null, null, 1, @firstname, @firstname, @cimaPwd
+
+		set @EntityID = (Select EntityID from Contacts.entity where WebLogin = @username)
+
+		insert into Contacts.Attributes (EntityID, attribute, status, attributetype)
+			Select EntityID, 365, 1, 'UserPasswordExpireDays'
+			from Contacts.Entity
+			where EntityType = 1
+			and entityid = @EntityID
+
+			insert into Contacts.Attributes (EntityID, attribute, status, attributetype)
+			Select EntityID, 1, 1, 'UserPasswordComplexLevel'
+			from Contacts.Entity
+			where EntityType = 1
+			and entityid = @EntityID
+
+			insert into Contacts.Attributes (EntityID, attribute, status, attributetype)
+			Select EntityID, 30, 1, 'IPExpireDays'
+			from Contacts.Entity
+			where EntityType = 1
+			and entityid = @EntityID
+
+
+		Select @EntityID as entityid, 1 as addeduser
+	end
+    
+END
+GO

@@ -1,3 +1,23 @@
+/* Adding the new cimaPwd field to the view */
+USE [Proview]
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_DiagramPaneCount' , @level0type=N'SCHEMA',@level0name=N'Contacts', @level1type=N'VIEW',@level1name=N'Entity'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_DiagramPane1' , @level0type=N'SCHEMA',@level0name=N'Contacts', @level1type=N'VIEW',@level1name=N'Entity'
+GO
+
+/****** Object:  View [Contacts].[Entity]    Script Date: 2/18/2021 10:38:06 AM ******/
+DROP VIEW [Contacts].[Entity]
+GO
+
+/****** Object:  View [Contacts].[Entity]    Script Date: 2/18/2021 10:38:06 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
 
 CREATE VIEW [Contacts].[Entity]
 AS
@@ -132,3 +152,5 @@ GO
 
 EXEC sys.sp_addextendedproperty @name=N'MS_DiagramPaneCount', @value=1 , @level0type=N'SCHEMA',@level0name=N'Contacts', @level1type=N'VIEW',@level1name=N'Entity'
 GO
+
+
