@@ -144,7 +144,7 @@ begin
       ,getdate()
       ,0, 1
 
-    select *
+    select projectId
     from dbo.tblProject
     where projectId = @projectId
 
