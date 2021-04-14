@@ -629,6 +629,7 @@
     <Build Include="dbo\StoredProcedures\ProjectAdd.sql" />
     <Build Include="dbo\Views\viewProjectOcoGroupTotals.sql" />
     <Build Include="dbo\Views\viewProjectEmployeeAgg.sql" />
+    <Build Include="Contacts\Tables\BusinessEntity.sql" />
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="WeatherDatabase">
@@ -637,7 +638,7 @@
     </SqlCmdVariable>
   </ItemGroup>
   <ItemGroup>
-    <ArtifactReference Include="c:\Users\mstro\Documents\cima\cima-sql\WeatherDatabase.dacpac">
+    <ArtifactReference Include="WeatherDatabase.dacpac">
       <SuppressMissingDependenciesErrors>True</SuppressMissingDependenciesErrors>
       <DatabaseVariableLiteralValue>WeatherDatabase</DatabaseVariableLiteralValue>
     </ArtifactReference>

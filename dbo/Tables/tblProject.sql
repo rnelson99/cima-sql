@@ -67,6 +67,7 @@ CREATE TABLE [dbo].[tblProject] (
     [PercComplete]            FLOAT (53)      CONSTRAINT [DF__tblProjec__PercC__5DE0C954] DEFAULT ((0)) NULL,
     [parentProjectID]         INT             NULL,
     [requireConditional]      INT             DEFAULT ((0)) NULL,
+    [BusEntityID] [int] NULL,
     CONSTRAINT [aaaaatblProject_PK] PRIMARY KEY NONCLUSTERED ([ProjectID] ASC)
 );
 
