@@ -628,6 +628,7 @@
     <Build Include="users\Tables\projectfavorites.sql" />
     <Build Include="dbo\StoredProcedures\ProjectAdd.sql" />
     <Build Include="dbo\Views\viewProjectOcoGroupTotals.sql" />
+    <Build Include="dbo\Views\viewProjectEmployeeAgg.sql" />
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="WeatherDatabase">

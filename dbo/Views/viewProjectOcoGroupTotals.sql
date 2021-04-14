@@ -1,4 +1,4 @@
-CREATE VIEW [dbo].[viewProjectOcoGroupTotals]
+create VIEW [dbo].[viewProjectOcoGroupTotals]
   AS with cte as (
             select 'Verbally Approved' as zbillingstatus, 0 as zatRisk, 3 as sorter
             union select 'Pending', 0 as atRisk, 5 as sorter
@@ -10,11 +10,11 @@ CREATE VIEW [dbo].[viewProjectOcoGroupTotals]
             union select 'Declined', 1 as atRisk, 8 as sorter
             )
 			,chargesSalesTax as (
-				select projectId
+				select std.projectId
 					,count(*) as salesTaxRows
-				from [Proview].[project].[salesTaxDetermination]
+				from [project].[salesTaxDetermination] std
 				where saletax=1 and status =1
-				group by projectid
+				group by std.projectid
 			)
 			,ocoTotals as (
             select v.projectId, z.zbillingstatus as BillingStatus, z.zatrisk as atRisk, count(*) as ct, isnull(sum(v.itemAmounts),0) as grouptotal, z.sorter,
