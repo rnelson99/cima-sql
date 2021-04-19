@@ -630,6 +630,7 @@
     <Build Include="dbo\Views\viewProjectOcoGroupTotals.sql" />
     <Build Include="dbo\Views\viewProjectEmployeeAgg.sql" />
     <Build Include="Contacts\Tables\BusinessEntity.sql" />
+    <Build Include="approval\Tables\ProjectBilling.sql" />
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="WeatherDatabase">
